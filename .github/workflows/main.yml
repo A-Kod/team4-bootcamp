@@ -1,4 +1,4 @@
-name: My Workflow
+name: Show Secret Value
 
 on:
   push:
@@ -8,8 +8,12 @@ on:
 jobs:
   my-job:
     runs-on: ubuntu-latest
-    env:
-      MY_ENV_VAR: ${{ secrets.QWERTY }}
     steps:
-      - name: My Step
-        run: echo $MY_ENV_VAR
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Unmask secret
+        run: echo "::add-mask::${{ secrets.QWERTY }}"
+
+      - name: Show secret value
+        run: echo "The secret value is: ${{ secrets.QWERTY }}"
